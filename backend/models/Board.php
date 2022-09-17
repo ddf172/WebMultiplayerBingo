@@ -16,7 +16,7 @@ class Board {
 
     //Get all board table
     public function readAll(){
-        $query = 'SELECT player_id,game_id,content,checked from '.$this->table;
+        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where game_id='.$this->id;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

@@ -7,25 +7,18 @@ include_once '../../models/Board.php';
 
 $database = new Database();
 $db = $database->connect();
-
+////////
 $board = new Board($db);
-
+$board->id = isset($_GET['id']) ? $_GET['id'] : die();
 $result = $board->readAll();
-if($result->rowCount()){
+if($result->rowCount()>0){
     $boardArr = array();
     $boardArr['data'] = array();
     while($row=$result->fetch(PDO::FETCH_ASSOC)){
-        extract($row);
-        $board = array(
-            'field_id' =>$field_id,
-            'field_value' =>$field_value,
-            'checked' =>$checked,
-            'player_id' =>$player_id,
-        );
-        array_push($boardArr['data'],$board);
+        array_push($boardArr['data'],$row);
     }
     // to JSON
     echo json_encode($boardArr);
 }
-else json_encode(array('message'=>'No data found'));
+else echo json_encode(array('message'=>'No data found'));
 ?>
