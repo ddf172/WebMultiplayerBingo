@@ -4,10 +4,10 @@ class Board {
     private $table = 'board';
 
     //properties
-    public $field_id;
-    public $field_value;
-    public $checked;
     public $player_id;
+    public $game_id;
+    public $content;
+    public $checked;
 
     //constructor
     public function __construct($db){
@@ -16,13 +16,13 @@ class Board {
 
     //Get all board table
     public function readAll(){
-        $query = 'SELECT field_id,field_value,checked,player_id from '.$this->table;
+        $query = 'SELECT player_id,game_id,content,checked from '.$this->table;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
     public function readField(){
-        $query = 'SELECT field_id,field_value,checked,player_id from '.$this->table. ' Where field_id='.$this->id;
+        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where player_id='.$this->id;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
