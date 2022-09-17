@@ -9,23 +9,19 @@ $database = new Database();
 $db = $database->connect();
 
 $board = new Board($db);
-$board->id = isset($_GET['id']) ? $_GET['id'] : die();
-$result = $board->readField();
-if($result->rowCount()){
-    //Działania na danych z bazy
-    $row=$result->fetch(PDO::FETCH_ASSOC);
-    extract($row);
+// Conditonal tests 
+$board->pID = isset($_GET['pID']) ? $_GET['pID'] : die();
+$board->gID = isset($_GET['gID']) ? $_GET['gID'] : die();
 
-    //Tworzenie struktury
+$result = $board->readPlayerFields();
+
+if($result->rowCount()){
+
     $boardArr = array();
     $boardArr['data'] = array();
-    array_push($boardArr['data'],array(
-        'field_id' =>$field_id,
-        'field_value' =>$field_value,
-        'checked' =>$checked,
-        'player_id' =>$player_id
-    ));
-    
+    while($row=$result->fetch(PDO::FETCH_ASSOC)){
+        array_push($boardArr['data'],$row);
+    }
     // to JSON
     echo json_encode($boardArr);
 }

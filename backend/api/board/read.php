@@ -9,11 +9,13 @@ $database = new Database();
 $db = $database->connect();
 ////////
 $board = new Board($db);
-$board->id = isset($_GET['id']) ? $_GET['id'] : die();
+$board->gID = isset($_GET['gID']) ? $_GET['gID'] : die();
+//////
 $result = $board->readAll();
-if($result->rowCount()>0){
+if($result->rowCount()){
     $boardArr = array();
     $boardArr['data'] = array();
+    // Putting data to array
     while($row=$result->fetch(PDO::FETCH_ASSOC)){
         array_push($boardArr['data'],$row);
     }

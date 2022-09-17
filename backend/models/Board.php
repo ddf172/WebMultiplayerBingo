@@ -16,13 +16,13 @@ class Board {
 
     //Get all board table
     public function readAll(){
-        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where game_id='.$this->id;
+        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where game_id='.$this->gID;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
-    public function readField(){
-        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where player_id='.$this->id;
+    public function readPlayerFields(){
+        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where player_id='.$this->pID.' AND game_id='.$this->gID;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
