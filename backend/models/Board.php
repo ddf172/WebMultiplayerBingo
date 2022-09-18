@@ -6,27 +6,51 @@ class Board {
     //properties
     public $player_id;
     public $game_id;
+    public $field_id;
     public $content;
     public $checked;
+    
 
     //constructor
     public function __construct($db){
         $this->conn = $db;
     }
 
-    //Get all board table
+    /* link: api/board/read.php?gID=x , need to get parameter gID - game_id
+       returns 2 dimensional array. First element is 'data' with contains all fields from game with id=x. Currently there is only 'data' element */
     public function readAll(){
-        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where game_id='.$this->gID;
+        $query = 'SELECT player_id,game_id,field_id,content,checked from '.$this->table. ' Where game_id='.$this->gID.' ORDER BY player_id, field_id';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
+    /* link: api/board/readPlayerFields.php?pID=x&gID=y, need two parameters pID - player_id and gID - game_id
+       returns 2 dimensional array. First element is 'data' with contains all fields from player with id=x and game with id=y.
+       Currently there is only 'data' element */
     public function readPlayerFields(){
-        $query = 'SELECT player_id,game_id,content,checked from '.$this->table. ' Where player_id='.$this->pID.' AND game_id='.$this->gID;
+        $query = 'SELECT player_id,game_id,field_id,content,checked from '.$this->table. ' Where player_id='.$this->pID.' AND game_id='.$this->gID.' ORDER BY field_id';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
+    public function create(){
+        // Clean data
+        $this->player_id = htmlspecialchars(strip_tags($this->player_id));
+        $this->game_id = htmlspecialchars(strip_tags($this->game_id));
+        $this->content = htmlspecialchars(strip_tags($this->content));
+        $this->checked = htmlspecialchars(strip_tags($this->checked));
 
+        // database query
+
+        $query = 'INSERT INTO '. $this->table. ' (player_id,game_id,field_id,content,checked) VALUES 
+        ('. $this->player_id .','.$this->game_id.','.$this->field_id.','.$this->content.','.$this->checked.')';
+        $stmt = $this->conn->prepare($query);
+        
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error: %s.\n", $stmt->error);
+        return false;
+    }
 }
 ?>
