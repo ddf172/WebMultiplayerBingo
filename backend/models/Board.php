@@ -37,6 +37,7 @@ class Board {
         // Clean data
         $this->player_id = htmlspecialchars(strip_tags($this->player_id));
         $this->game_id = htmlspecialchars(strip_tags($this->game_id));
+        $this->field_id = htmlspecialchars(strip_tags($this->field_id));
         $this->content = htmlspecialchars(strip_tags($this->content));
         $this->checked = htmlspecialchars(strip_tags($this->checked));
 
@@ -46,10 +47,74 @@ class Board {
         ('. $this->player_id .','.$this->game_id.','.$this->field_id.','.$this->content.','.$this->checked.')';
         $stmt = $this->conn->prepare($query);
         
-        if($stmt->execute()){
+        try{
+            if($stmt->execute()){
             return true;
+            }
         }
-        printf("Error: %s.\n", $stmt->error);
+        catch(Exception $e){
+            print ($e);
+        }
+        return false;
+    }
+    public function update(){
+        // Clean data
+        $this->player_id = htmlspecialchars(strip_tags($this->player_id));
+        $this->game_id = htmlspecialchars(strip_tags($this->game_id));
+        $this->field_id = htmlspecialchars(strip_tags($this->field_id));
+        $this->content = htmlspecialchars(strip_tags($this->content));
+        $this->checked = htmlspecialchars(strip_tags($this->checked));
+
+        // database query
+
+        $query = 'UPDATE '.
+            $this->table. 
+        ' SET'.
+            ' content='.$this->content.
+            ', checked='.$this->checked.
+            ' Where player_id='.$this->player_id.' AND game_id='.$this->game_id.' AND field_id='.$this->field_id;
+        
+        $stmt = $this->conn->prepare($query);
+        
+        try{
+            if($stmt->execute()){
+            return true;
+            }
+        }
+        catch(Exception $e){
+            print ($e);
+        }
+        return false;
+    }
+
+    public function deleteGame(){
+        $this->gID = htmlspecialchars(strip_tags($this->gID));
+        $query = 'DELETE FROM '.$this->table.' WHERE game_id='.$this->gID;
+        $stmt = $this->conn->prepare($query);
+        try{
+            if($stmt->execute()){
+            return true;
+            }
+        }
+        catch(Exception $e){
+            print ($e);
+        }
+        return false;
+    }
+    
+    public function deletePlayer(){
+        $this->gID = htmlspecialchars(strip_tags($this->gID));
+        $this->pID = htmlspecialchars(strip_tags($this->pID));
+        $query = 'DELETE FROM '.$this->table.' WHERE game_id='.$this->gID.' AND player_id='.$this->pID;
+        $stmt = $this->conn->prepare($query);
+        try{
+            if($stmt->execute()){
+            return true;
+            }
+        }
+        catch(Exception $e){
+            print ($e);
+        }
         return false;
     }
 }

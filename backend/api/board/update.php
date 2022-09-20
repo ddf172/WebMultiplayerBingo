@@ -1,7 +1,7 @@
 <?php 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 include_once '../../config/Database.php';
@@ -29,7 +29,7 @@ foreach($data as $index){
     $board->field_id = $row['field_id'];
     $board->content = $row['content'];
     $board->checked = $row['checked'];
-    $board->create();
+    $board->update();
 }
 
 ?>
