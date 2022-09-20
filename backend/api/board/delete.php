@@ -17,8 +17,4 @@ if(isset($_GET['pID'])&&isset($_GET['gID'])){
     $board->gID = $_GET['gID'];
     $board->deletePlayer();
 }
-elseif(isset($_GET['gID'])){
-    $board->gID = $_GET['gID'];
-    $board->deleteGame();
-}
 else die();
