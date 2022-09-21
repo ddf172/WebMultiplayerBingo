@@ -117,5 +117,8 @@ class Board {
         }
         return false;
     }
+    public function closeConnection(){
+        $this->conn=null;
+    }
 }
 ?>

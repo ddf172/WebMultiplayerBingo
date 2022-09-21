@@ -8,9 +8,8 @@ include_once '../../config/Database.php';
 include_once '../../models/Board.php';
 
 $database = new Database();
-$db = $database->connect();
 ////////
-$board = new Board($db);
+$board = new Board($database->connect());
 $data = json_decode(file_get_contents("php://input"));
 
 (is_null($data)) ? die() : "";
@@ -31,5 +30,5 @@ foreach($data as $index){
     $board->checked = $row['checked'];
     $board->create();
 }
-
+$board->closeConnection();
 ?>

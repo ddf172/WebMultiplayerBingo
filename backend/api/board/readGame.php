@@ -6,9 +6,8 @@ include_once '../../config/Database.php';
 include_once '../../models/Board.php';
 
 $database = new Database();
-$db = $database->connect();
 ////////
-$board = new Board($db);
+$board = new Board($database->connect());
 $board->gID = isset($_GET['gID']) ? $_GET['gID'] : die();
 //////
 $result = $board->readAll();
@@ -23,4 +22,5 @@ if($result->rowCount()){
     echo json_encode($boardArr);
 }
 else echo json_encode(array('message'=>'No data found'));
+$board->closeConnection();
 ?>

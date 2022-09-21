@@ -8,13 +8,12 @@ include_once '../../config/Database.php';
 include_once '../../models/Player.php';
 
 $database = new Database();
-$db = $database->connect();
-
-$player = new Player($db);
+$player = new Player($database->connect());
 // Conditonal tests 
 if(isset($_GET['pID'])){
     $player->pID = $_GET['pID'];
     $player->delete();
 }
 else die();
+$player->closeConnection();
 ?>

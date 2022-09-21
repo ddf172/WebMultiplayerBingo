@@ -8,9 +8,8 @@ include_once '../../config/Database.php';
 include_once '../../models/Player.php';
 
 $database = new Database();
-$db = $database->connect();
 ////////
-$player = new Player($db);
+$player = new Player($database->connect());
 $data = json_decode(file_get_contents("php://input",true));
 (is_null($data)) ? die() : "";
 foreach($data as $index){
@@ -24,4 +23,5 @@ foreach($data as $index){
     $player->nickname = $row['nickname'];
     $player->create();
 }
+$player->closeConnection();
 ?>

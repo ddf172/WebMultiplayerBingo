@@ -6,9 +6,7 @@ include_once '../../config/Database.php';
 include_once '../../models/Player.php';
 
 $database = new Database();
-$db = $database->connect();
-
-$player = new Player($db);
+$player = new Player($database->connect());
 $player->pID = isset($_GET['pID']) ? $_GET['pID'] : die();
 
 $result = $player->readOne();
@@ -21,3 +19,4 @@ if($result->rowCount()){
     echo json_encode($playerArr);
 }
 else json_encode(array('message'=>'No data found'));
+$player->closeConnection();

@@ -61,4 +61,7 @@ class Player {
         return false;
 
     }
+    public function closeConnection(){
+        $this->conn=null;
+    }
 }

@@ -8,9 +8,8 @@ include_once '../../config/Database.php';
 include_once '../../models/Board.php';
 
 $database = new Database();
-$db = $database->connect();
 
-$board = new Board($db);
+$board = new Board($database->connect());
 // Conditonal tests 
 if(isset($_GET['pID'])&&isset($_GET['gID'])){
     $board->pID = $_GET['pID'];
@@ -18,4 +17,5 @@ if(isset($_GET['pID'])&&isset($_GET['gID'])){
     $board->deletePlayer();
 }
 else die();
+$board->closeConnection();
 ?>
