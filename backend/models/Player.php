@@ -11,8 +11,15 @@ class Player {
     public function __construct($db){
         $this->conn = $db;
     }
-
-    public function read(){
+    public function readPlayersInGame(){
+        $this->gID = htmlspecialchars(strip_tags($this->gID));
+        $query = 'SELECT p.player_id, p.nickname FROM board b RIGHT JOIN player p on p.player_id=b.player_id WHERE b.game_id='.$this->gID;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+    public function readOne(){
+        $this->pID = htmlspecialchars(strip_tags($this->pID));
         $query = 'SELECT player_id,nickname from '.$this->table. ' Where player_id='.$this->pID;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -38,5 +45,20 @@ class Player {
             print ($e);
         }
         return false;
+    }
+    public function delete(){
+        $this->pID = htmlspecialchars(strip_tags($this->pID));
+        $query = 'DELETE FROM '.$this->table.' WHERE player_id='.$this->pID;
+        $stmt = $this->conn->prepare($query);
+        try{
+            if($stmt->execute()){
+            return true;
+            }
+        }
+        catch(Exception $e){
+            print ($e);
+        }
+        return false;
+
     }
 }

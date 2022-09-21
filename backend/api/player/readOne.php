@@ -11,13 +11,13 @@ $db = $database->connect();
 $player = new Player($db);
 $player->pID = isset($_GET['pID']) ? $_GET['pID'] : die();
 
-$result = $player->read();
+$result = $player->readOne();
 if($result->rowCount()){
 
-    $boardArr = array();
-    $boardArr['data'] = array();
-    array_push($boardArr['data'],$result->fetch(PDO::FETCH_ASSOC));
+    $playerArr = array();
+    $playerArr['data'] = array();
+    array_push($playerArr['data'],$result->fetch(PDO::FETCH_ASSOC));
     // to JSON
-    echo json_encode($boardArr);
+    echo json_encode($playerArr);
 }
 else json_encode(array('message'=>'No data found'));

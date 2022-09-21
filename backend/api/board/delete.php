@@ -18,3 +18,4 @@ if(isset($_GET['pID'])&&isset($_GET['gID'])){
     $board->deletePlayer();
 }
 else die();
+?>
