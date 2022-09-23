@@ -2,6 +2,7 @@
 class Player {
     private $conn;
     private $table = 'player';
+    private $table1 = 'board';
 
     //properties
     public $player_id;
@@ -13,7 +14,7 @@ class Player {
     }
     public function readPlayersInGame(){
         $this->gID = htmlspecialchars(strip_tags($this->gID));
-        $query = 'SELECT p.player_id, p.nickname FROM board b RIGHT JOIN player p on p.player_id=b.player_id WHERE b.game_id='.$this->gID;
+        $query = 'SELECT p.player_id, p.nickname FROM '.$this->table1  .' b RIGHT JOIN '. $this->table .' p on p.player_id=b.player_id WHERE b.game_id='.$this->gID;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
